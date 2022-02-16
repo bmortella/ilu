@@ -1,19 +1,19 @@
+import { Player } from "./models/player.js";
+
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = true;
 
 class InGame {
   constructor() {
-    this.shipCoord = { x: 400, y: 450 };
     this.mousePos = { x: 0, y: 0 };
+
+    this.player = new Player(400, 450);
   }
 
   update(events) {
-    if (events.keys.d) {
-      this.shipCoord.x += 2;
-    } else if (events.keys.a) {
-      this.shipCoord.x -= 2;
-    }
+    this.player.update(events);
+
     this.mousePos.x = events.mouse.mouseCoords.x;
     this.mousePos.y = events.mouse.mouseCoords.y;
   }
@@ -26,17 +26,11 @@ class InGame {
     ctx.arc(393, 935, 420, 0, 2 * Math.PI);
     ctx.stroke();
 
-    // Draw ship
-    ctx.beginPath();
-    ctx.moveTo(this.shipCoord.x, this.shipCoord.y);
-    ctx.lineTo(this.shipCoord.x - 10, this.shipCoord.y + 25);
-    ctx.lineTo(this.shipCoord.x + 10, this.shipCoord.y + 25);
-    ctx.closePath();
-    ctx.stroke();
+    this.player.draw();
 
     // Draw line
     ctx.beginPath();
-    ctx.moveTo(this.shipCoord.x, this.shipCoord.y);
+    ctx.moveTo(this.player.x, this.player.y);
     ctx.lineTo(this.mousePos.x, this.mousePos.y);
     ctx.stroke();
   }
