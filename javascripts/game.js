@@ -1,4 +1,5 @@
 import { Player } from "./models/player.js";
+import { Projectile } from "./models/projectile.js";
 
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
@@ -9,6 +10,10 @@ class InGame {
     this.mousePos = { x: 0, y: 0 };
 
     this.player = new Player(400, 450);
+
+    this.projectiles = [];
+    this.projectileCooldown = -30; // frames
+    this.projectileCooldownCount = 0;
   }
 
   update(events) {
@@ -16,6 +21,19 @@ class InGame {
 
     this.mousePos.x = events.mouse.mouseCoords.x;
     this.mousePos.y = events.mouse.mouseCoords.y;
+
+    this.projectiles.forEach((projectile) => {
+      projectile.update();
+    });
+
+    if (events.mouse.mouseDown) {
+      if (this.projectileCooldownCount >= 0) {
+        this.projectiles.push(new Projectile(this.player, this.mousePos));
+        this.projectileCooldownCount = this.projectileCooldown;
+      }
+    }
+
+    this.projectileCooldownCount++;
   }
 
   draw() {
@@ -26,6 +44,9 @@ class InGame {
     ctx.arc(393, 935, 420, 0, 2 * Math.PI);
     ctx.stroke();
 
+    this.projectiles.forEach((projectile) => {
+      projectile.draw();
+    });
     this.player.draw();
   }
 }
@@ -50,10 +71,13 @@ class Game {
 
   handleMouse(event) {
     if (event.type === "mousemove") {
-      this.events.mouse.mouseCoords.x = event.clientX;
-      this.events.mouse.mouseCoords.y = event.clientY;
+      this.events.mouse.mouseCoords.x = event.clientX - canvas.offsetLeft;
+      this.events.mouse.mouseCoords.y = event.clientY - canvas.offsetTop;
     } else if (event.type === "mousedown") {
-      console.log(event.clientX, event.clientY);
+      // console.log(
+      //   event.clientX - canvas.offsetLeft,
+      //   event.clientY - canvas.offsetTop
+      // );
       this.events.mouse.mouseDown = true;
     } else {
       this.events.mouse.mouseDown = false;
