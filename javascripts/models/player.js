@@ -5,13 +5,14 @@ class Player {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.vel = 2;
   }
 
   update(events) {
     if (events.keys.d) {
-      this.x += 2;
+      if (this.x + this.vel < canvas.width) this.x += this.vel;
     } else if (events.keys.a) {
-      this.x -= 2;
+      if (this.x - this.vel > 0) this.x -= this.vel;
     }
   }
 

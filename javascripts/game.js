@@ -27,12 +27,6 @@ class InGame {
     ctx.stroke();
 
     this.player.draw();
-
-    // Draw line
-    ctx.beginPath();
-    ctx.moveTo(this.player.x, this.player.y);
-    ctx.lineTo(this.mousePos.x, this.mousePos.y);
-    ctx.stroke();
   }
 }
 
