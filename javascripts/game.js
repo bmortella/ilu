@@ -1,10 +1,51 @@
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
+ctx.imageSmoothingEnabled = true;
+
+class InGame {
+  constructor() {
+    this.shipCoord = { x: 400, y: 450 };
+    this.mousePos = { x: 0, y: 0 };
+  }
+
+  update(events) {
+    if (events.keys.d) {
+      this.shipCoord.x += 2;
+    } else if (events.keys.a) {
+      this.shipCoord.x -= 2;
+    }
+    this.mousePos.x = events.mouse.mouseCoords.x;
+    this.mousePos.y = events.mouse.mouseCoords.y;
+  }
+
+  draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw planet
+    ctx.beginPath();
+    ctx.arc(393, 935, 420, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    // Draw ship
+    ctx.beginPath();
+    ctx.moveTo(this.shipCoord.x, this.shipCoord.y);
+    ctx.lineTo(this.shipCoord.x - 10, this.shipCoord.y + 25);
+    ctx.lineTo(this.shipCoord.x + 10, this.shipCoord.y + 25);
+    ctx.closePath();
+    ctx.stroke();
+
+    // Draw line
+    ctx.beginPath();
+    ctx.moveTo(this.shipCoord.x, this.shipCoord.y);
+    ctx.lineTo(this.mousePos.x, this.mousePos.y);
+    ctx.stroke();
+  }
+}
 
 class Game {
   constructor() {
-    //this.states = { IN_GAME: new InGame() };
-    //this.current_state = this.states["IN_GAME"];
+    this.states = { IN_GAME: new InGame() };
+    this.current_state = this.states["IN_GAME"];
     this.events = {
       keys: {},
       mouse: { mouseDown: false, mouseCoords: { x: 0, y: 0 } },
@@ -24,6 +65,7 @@ class Game {
       this.events.mouse.mouseCoords.x = event.clientX;
       this.events.mouse.mouseCoords.y = event.clientY;
     } else if (event.type === "mousedown") {
+      console.log(event.clientX, event.clientY);
       this.events.mouse.mouseDown = true;
     } else {
       this.events.mouse.mouseDown = false;
@@ -31,8 +73,8 @@ class Game {
   }
 
   run() {
-    // this.current_state.update(this.events)
-    // this.current_state.draw()
+    this.current_state.update(this.events);
+    this.current_state.draw();
     requestAnimationFrame(() => this.run());
   }
 }
