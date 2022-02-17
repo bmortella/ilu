@@ -1,6 +1,7 @@
 import { Player } from "./models/player.js";
 import { Projectile } from "./models/projectile.js";
 import { Asteroid } from "./models/asteroid/asteroid.js";
+import { AsteroidDesigner } from "./models/asteroid/asteroidDesigner.js";
 
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
@@ -53,13 +54,13 @@ class InGame {
     this.projectileCooldownCount++;
 
     // Update asteroids + collision
-    // this.asteroidDesigner.update(events);
+    //this.asteroidDesigner.update(events);
     this.asteroids.forEach((asteroid, aIndex) => {
       //asteroid.update()
       this.projectiles.forEach((projectile, pIndex) => {
         const dist = Math.hypot(
-          projectile.x - asteroid.pos.x,
-          projectile.y - asteroid.pos.y
+          projectile.x - asteroid.x,
+          projectile.y - asteroid.y
         );
 
         if (dist - asteroid.radius - projectile.radius < 1) {
@@ -77,6 +78,8 @@ class InGame {
     ctx.beginPath();
     ctx.arc(canvas.width / 2, canvas.height + 130, 250, 0, Math.PI, true);
     ctx.stroke();
+
+    //this.asteroidDesigner.draw();
 
     this.asteroids.forEach((asteroid) => {
       asteroid.draw();
