@@ -5,9 +5,8 @@ class AsteroidDesigner {
   constructor(position, type) {
     this.position = position;
     this.types = {
-      1: 80,
-      2: 40,
-      3: 20,
+      normal: 30,
+      big: 80,
     };
     this.radius = this.types[type];
     this.nodes = [];

@@ -1,6 +1,6 @@
 import { Player } from "./models/player.js";
 import { Projectile } from "./models/projectile.js";
-import { AsteroidDesigner } from "./models/asteroidDesigner.js";
+import { Asteroid } from "./models/asteroid/asteroid.js";
 
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
@@ -16,22 +16,32 @@ class InGame {
     this.projectileCooldown = -30; // frames
     this.projectileCooldownCount = 0;
 
-    this.asteroidDesigner = new AsteroidDesigner(
-      { x: canvas.width / 2, y: 300 },
-      2
-    );
+    // this.asteroidDesigner = new AsteroidDesigner(
+    //   { x: canvas.width / 2, y: 300 },
+    //   "normal"
+    // );
+    this.asteroid = new Asteroid({ x: 200, y: 200 }, 10);
   }
 
   update(events) {
     this.player.update(events);
 
-    this.asteroidDesigner.update(events);
+    // this.asteroidDesigner.update(events);
 
     this.mousePos.x = events.mouse.mouseCoords.x;
     this.mousePos.y = events.mouse.mouseCoords.y;
 
-    this.projectiles.forEach((projectile) => {
+    // Update projectiles
+    this.projectiles.forEach((projectile, index) => {
       projectile.update();
+      if (
+        projectile.x > canvas.width ||
+        projectile.x < 0 ||
+        projectile.y > canvas.height ||
+        projectile.y < 0
+      ) {
+        this.projectiles.splice(index, 1);
+      }
     });
 
     if (events.mouse.mouseDown) {
@@ -47,12 +57,12 @@ class InGame {
   draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    this.asteroidDesigner.draw();
-
     // Draw planet
     ctx.beginPath();
     ctx.arc(canvas.width / 2, canvas.height + 130, 250, 0, Math.PI, true);
     ctx.stroke();
+
+    this.asteroid.draw();
 
     this.projectiles.forEach((projectile) => {
       projectile.draw();
