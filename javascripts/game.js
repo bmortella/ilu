@@ -31,9 +31,9 @@ class InGame {
     }, 800);
     setInterval(() => {
       this.spawnAsteroid();
-    }, 800);
+    }, 713);
     setInterval(() => {
-      this.spawnBigAsteroid();
+      if (!this.bigAsteroid) this.spawnBigAsteroid();
     }, 5000);
   }
 
@@ -99,6 +99,21 @@ class InGame {
 
     if (this.bigAsteroid) {
       this.bigAsteroid.update();
+      this.projectiles.forEach((projectile, index) => {
+        if (!this.bigAsteroid) return;
+
+        const dist = Math.hypot(
+          projectile.x - this.bigAsteroid.x,
+          projectile.y - this.bigAsteroid.y
+        );
+
+        if (dist - this.bigAsteroid.radius - projectile.radius < 1) {
+          this.projectiles.splice(index, 1);
+          if (this.bigAsteroid.hit()) {
+            this.bigAsteroid = null;
+          }
+        }
+      });
     }
   }
 

@@ -35,11 +35,23 @@ class Asteroid {
 class BigAsteroid extends Asteroid {
   constructor(pos, attackX) {
     super(pos, attackX);
-    this.vel = 0.6;
+    this.vel = 0.4;
 
     const rand = Math.floor(Math.random() * variants.big.nodes.length);
     this.nodes = variants.big.nodes[rand];
     this.radius = variants.big.radius;
+
+    this.health = 100;
+  }
+
+  hit() {
+    this.health -= 12;
+    console.log(this.health);
+    if (this.health <= 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
