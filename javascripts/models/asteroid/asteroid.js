@@ -9,7 +9,7 @@ class Asteroid {
     this.y = pos.y;
     this.vel = 1.5;
 
-    let rand = Math.floor(Math.random() * variants.normal.nodes.length);
+    const rand = Math.floor(Math.random() * variants.normal.nodes.length);
     this.nodes = variants.normal.nodes[rand];
     this.radius = variants.normal.radius;
 
@@ -32,4 +32,15 @@ class Asteroid {
   }
 }
 
-export { Asteroid };
+class BigAsteroid extends Asteroid {
+  constructor(pos, attackX) {
+    super(pos, attackX);
+    this.vel = 0.6;
+
+    const rand = Math.floor(Math.random() * variants.big.nodes.length);
+    this.nodes = variants.big.nodes[rand];
+    this.radius = variants.big.radius;
+  }
+}
+
+export { Asteroid, BigAsteroid };

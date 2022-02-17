@@ -1,6 +1,6 @@
 import { Player } from "./models/player.js";
 import { Projectile } from "./models/projectile.js";
-import { Asteroid } from "./models/asteroid/asteroid.js";
+import { Asteroid, BigAsteroid } from "./models/asteroid/asteroid.js";
 import { AsteroidDesigner } from "./models/asteroid/asteroidDesigner.js";
 
 const canvas = document.getElementById("canvasObj");
@@ -24,16 +24,31 @@ class InGame {
     // );
 
     this.asteroids = [];
-    this.spawnAsteroid();
+    this.bigAsteroid = null;
+
+    setInterval(() => {
+      this.spawnAsteroid();
+    }, 800);
+    setInterval(() => {
+      this.spawnAsteroid();
+    }, 800);
+    setInterval(() => {
+      this.spawnBigAsteroid();
+    }, 5000);
   }
 
   spawnAsteroid() {
     this.asteroids.push(
       new Asteroid(
-        { x: Math.random() * canvas.width, y: 0 },
+        { x: Math.random() * canvas.width, y: -30 },
         Math.random() * canvas.width
       )
     );
+  }
+
+  spawnBigAsteroid() {
+    const x = Math.random() * canvas.width;
+    this.bigAsteroid = new BigAsteroid({ x: x, y: -80 }, x);
   }
 
   update(events) {
@@ -81,6 +96,10 @@ class InGame {
         }
       });
     });
+
+    if (this.bigAsteroid) {
+      this.bigAsteroid.update();
+    }
   }
 
   draw() {
@@ -92,6 +111,10 @@ class InGame {
     ctx.stroke();
 
     //this.asteroidDesigner.draw();
+
+    if (this.bigAsteroid) {
+      this.bigAsteroid.draw();
+    }
 
     this.asteroids.forEach((asteroid) => {
       asteroid.draw();
