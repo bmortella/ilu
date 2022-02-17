@@ -5,6 +5,7 @@ import { AsteroidDesigner } from "./models/asteroid/asteroidDesigner.js";
 
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
+canvas.focus();
 ctx.imageSmoothingEnabled = true;
 
 class InGame {
@@ -21,7 +22,18 @@ class InGame {
     //   { x: canvas.width / 2, y: 300 },
     //   "normal"
     // );
-    this.asteroids = [new Asteroid({ x: 200, y: 200 }, 0)];
+
+    this.asteroids = [];
+    this.spawnAsteroid();
+  }
+
+  spawnAsteroid() {
+    this.asteroids.push(
+      new Asteroid(
+        { x: Math.random() * canvas.width, y: 0 },
+        Math.random() * canvas.width
+      )
+    );
   }
 
   update(events) {
@@ -56,7 +68,7 @@ class InGame {
     // Update asteroids + collision
     //this.asteroidDesigner.update(events);
     this.asteroids.forEach((asteroid, aIndex) => {
-      //asteroid.update()
+      asteroid.update();
       this.projectiles.forEach((projectile, pIndex) => {
         const dist = Math.hypot(
           projectile.x - asteroid.x,
@@ -88,6 +100,7 @@ class InGame {
     this.projectiles.forEach((projectile) => {
       projectile.draw();
     });
+
     this.player.draw();
   }
 }
