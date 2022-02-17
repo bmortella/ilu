@@ -8,6 +8,7 @@ class Projectile {
 
     this.vel = 4;
     this._size = 10;
+    this.radius = 1;
 
     this.angle = Math.atan2(mousePos.y - this.y, mousePos.x - this.x);
   }

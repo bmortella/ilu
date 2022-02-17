@@ -20,16 +20,12 @@ class InGame {
     //   { x: canvas.width / 2, y: 300 },
     //   "normal"
     // );
-    this.asteroid = new Asteroid({ x: 200, y: 200 }, 10);
+    this.asteroids = [new Asteroid({ x: 200, y: 200 }, 0)];
   }
 
   update(events) {
+    // Update player
     this.player.update(events);
-
-    // this.asteroidDesigner.update(events);
-
-    this.mousePos.x = events.mouse.mouseCoords.x;
-    this.mousePos.y = events.mouse.mouseCoords.y;
 
     // Update projectiles
     this.projectiles.forEach((projectile, index) => {
@@ -44,6 +40,9 @@ class InGame {
       }
     });
 
+    this.mousePos.x = events.mouse.mouseCoords.x;
+    this.mousePos.y = events.mouse.mouseCoords.y;
+
     if (events.mouse.mouseDown) {
       if (this.projectileCooldownCount >= 0) {
         this.projectiles.push(new Projectile(this.player, this.mousePos));
@@ -52,6 +51,23 @@ class InGame {
     }
 
     this.projectileCooldownCount++;
+
+    // Update asteroids + collision
+    // this.asteroidDesigner.update(events);
+    this.asteroids.forEach((asteroid, aIndex) => {
+      //asteroid.update()
+      this.projectiles.forEach((projectile, pIndex) => {
+        const dist = Math.hypot(
+          projectile.x - asteroid.pos.x,
+          projectile.y - asteroid.pos.y
+        );
+
+        if (dist - asteroid.radius - projectile.radius < 1) {
+          this.projectiles.splice(pIndex, 1);
+          this.asteroids.splice(aIndex, 1);
+        }
+      });
+    });
   }
 
   draw() {
@@ -62,7 +78,9 @@ class InGame {
     ctx.arc(canvas.width / 2, canvas.height + 130, 250, 0, Math.PI, true);
     ctx.stroke();
 
-    this.asteroid.draw();
+    this.asteroids.forEach((asteroid) => {
+      asteroid.draw();
+    });
 
     this.projectiles.forEach((projectile) => {
       projectile.draw();
