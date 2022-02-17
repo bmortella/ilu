@@ -1,7 +1,7 @@
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
 
-class AsteroidBuilder {
+class AsteroidDesigner {
   constructor(position, type) {
     this.position = position;
     this.types = {
@@ -54,4 +54,4 @@ class AsteroidBuilder {
   }
 }
 
-export { AsteroidBuilder };
+export { AsteroidDesigner };

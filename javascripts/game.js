@@ -1,6 +1,6 @@
 import { Player } from "./models/player.js";
 import { Projectile } from "./models/projectile.js";
-import { AsteroidBuilder } from "./models/asteroidBuilder.js";
+import { AsteroidDesigner } from "./models/asteroidDesigner.js";
 
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
@@ -16,7 +16,7 @@ class InGame {
     this.projectileCooldown = -30; // frames
     this.projectileCooldownCount = 0;
 
-    this.asteroidBuilder = new AsteroidBuilder(
+    this.asteroidDesigner = new AsteroidDesigner(
       { x: canvas.width / 2, y: 300 },
       2
     );
@@ -25,7 +25,7 @@ class InGame {
   update(events) {
     this.player.update(events);
 
-    this.asteroidBuilder.update(events);
+    this.asteroidDesigner.update(events);
 
     this.mousePos.x = events.mouse.mouseCoords.x;
     this.mousePos.y = events.mouse.mouseCoords.y;
@@ -47,7 +47,7 @@ class InGame {
   draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    this.asteroidBuilder.draw();
+    this.asteroidDesigner.draw();
 
     // Draw planet
     ctx.beginPath();
