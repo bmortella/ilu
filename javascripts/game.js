@@ -18,6 +18,8 @@ class InGame {
     this.mousePos = { x: 0, y: 0 };
 
     this.player = new Player(canvas.width / 2, canvas.height - 200);
+    this.score = 0;
+    this.planetHealth = 500;
 
     this.projectiles = [];
 
@@ -106,6 +108,7 @@ class InGame {
           );
           this.projectiles.splice(pIndex, 1);
           this.asteroids.splice(aIndex, 1);
+          this.score += 15;
         }
       });
     });
@@ -131,11 +134,28 @@ class InGame {
               )
             );
             this.bigAsteroid = null;
+            this.score += 50;
           }
         }
       });
     }
 
+    // Planet collision
+    this.asteroids.forEach((asteroid, index) => {
+      if (asteroid.y > canvas.height - 20) {
+        this.planetHealth -= 25;
+        this.asteroids.splice(index, 1);
+      }
+    });
+
+    if (this.bigAsteroid) {
+      if (this.bigAsteroid.y > canvas.height - 20) {
+        this.planetHealth -= 100;
+        this.bigAsteroid = null;
+      }
+    }
+
+    // Animations
     this.animations.forEach((animation, index) => {
       if (!animation.isFinished()) {
         animation.update();
@@ -172,6 +192,21 @@ class InGame {
     this.animations.forEach((animation) => {
       animation.draw();
     });
+
+    // Score
+    ctx.font = "22px Gugi";
+    ctx.fillStyle = "black";
+    ctx.fillText(this.score, 25, 40);
+
+    // Planet health bar
+    ctx.beginPath();
+    ctx.rect(100, canvas.height - 50, 500, 20);
+    ctx.stroke();
+
+    // Inner
+    ctx.beginPath();
+    ctx.rect(100, canvas.height - 50, this.planetHealth, 20);
+    ctx.fill();
   }
 }
 

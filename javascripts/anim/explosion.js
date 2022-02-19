@@ -14,7 +14,6 @@ class Particle {
   }
 
   update() {
-    this.draw();
     this.alpha -= 0.01;
     this.x += this.dx;
     this.y += this.dy;
@@ -26,7 +25,6 @@ class Particle {
     ctx.beginPath();
     ctx.fillStyle = `rgba(0,0,0,${this.alpha})`;
     ctx.rect(this.x, this.y, this.particleSize, this.particleSize);
-
     ctx.fill();
   }
 }
