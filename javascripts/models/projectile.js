@@ -6,7 +6,7 @@ class Projectile {
     this.x = player.x;
     this.y = player.y;
 
-    this.vel = 8;
+    this.vel = 8.5;
     this._size = 10;
     this.radius = 1;
 

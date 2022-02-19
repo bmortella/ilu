@@ -46,7 +46,6 @@ class BigAsteroid extends Asteroid {
 
   hit() {
     this.health -= 12;
-    console.log(this.health);
     if (this.health <= 0) {
       return true;
     } else {

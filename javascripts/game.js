@@ -2,9 +2,14 @@ import { Player } from "./models/player.js";
 import { Projectile } from "./models/projectile.js";
 import { Asteroid, BigAsteroid } from "./models/asteroid/asteroid.js";
 import { AsteroidDesigner } from "./models/asteroid/asteroidDesigner.js";
+import { Explosion } from "./anim/explosion.js";
 
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
+ctx.lineWidth = 2;
+// ctx.strokeStyle
+// mouseOut
+
 canvas.focus();
 ctx.imageSmoothingEnabled = true;
 
@@ -15,6 +20,8 @@ class InGame {
     this.player = new Player(canvas.width / 2, canvas.height - 200);
 
     this.projectiles = [];
+
+    //TODO: usar módulo
     this.projectileCooldown = -30; // frames
     this.projectileCooldownCount = 0;
 
@@ -26,15 +33,18 @@ class InGame {
     this.asteroids = [];
     this.bigAsteroid = null;
 
+    this.animations = [];
+
     setInterval(() => {
       this.spawnAsteroid();
     }, 800);
-    setInterval(() => {
-      this.spawnAsteroid();
-    }, 713);
-    setInterval(() => {
-      if (!this.bigAsteroid) this.spawnBigAsteroid();
-    }, 5000);
+    // setInterval(() => {
+    //   this.spawnAsteroid();
+    // }, 713);
+
+    // setInterval(() => {
+    //   if (!this.bigAsteroid) this.spawnBigAsteroid();
+    // }, 5000);
   }
 
   spawnAsteroid() {
@@ -91,6 +101,9 @@ class InGame {
         );
 
         if (dist - asteroid.radius - projectile.radius < 1) {
+          this.animations.push(
+            new Explosion({ x: asteroid.x, y: asteroid.y }, 2.5)
+          );
           this.projectiles.splice(pIndex, 1);
           this.asteroids.splice(aIndex, 1);
         }
@@ -115,6 +128,14 @@ class InGame {
         }
       });
     }
+
+    this.animations.forEach((animation, index) => {
+      if (!animation.isFinished()) {
+        animation.update();
+      } else {
+        this.animations.splice(index, 1);
+      }
+    });
   }
 
   draw() {
@@ -140,6 +161,10 @@ class InGame {
     });
 
     this.player.draw();
+
+    this.animations.forEach((animation) => {
+      animation.draw();
+    });
   }
 }
 
