@@ -35,16 +35,16 @@ class InGame {
 
     this.animations = [];
 
-    setInterval(() => {
-      this.spawnAsteroid();
-    }, 800);
     // setInterval(() => {
     //   this.spawnAsteroid();
-    // }, 713);
+    // }, 800);
+    setInterval(() => {
+      this.spawnAsteroid();
+    }, 713);
 
-    // setInterval(() => {
-    //   if (!this.bigAsteroid) this.spawnBigAsteroid();
-    // }, 5000);
+    setInterval(() => {
+      if (!this.bigAsteroid) this.spawnBigAsteroid();
+    }, 5000);
   }
 
   spawnAsteroid() {
@@ -102,7 +102,7 @@ class InGame {
 
         if (dist - asteroid.radius - projectile.radius < 1) {
           this.animations.push(
-            new Explosion({ x: asteroid.x, y: asteroid.y }, 2.5)
+            new Explosion({ x: asteroid.x, y: asteroid.y }, 2.5, 100)
           );
           this.projectiles.splice(pIndex, 1);
           this.asteroids.splice(aIndex, 1);
@@ -123,6 +123,13 @@ class InGame {
         if (dist - this.bigAsteroid.radius - projectile.radius < 1) {
           this.projectiles.splice(index, 1);
           if (this.bigAsteroid.hit()) {
+            this.animations.push(
+              new Explosion(
+                { x: this.bigAsteroid.x, y: this.bigAsteroid.y },
+                6,
+                320
+              )
+            );
             this.bigAsteroid = null;
           }
         }

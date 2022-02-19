@@ -32,12 +32,12 @@ class Particle {
 }
 
 class Explosion {
-  constructor(pos, range) {
+  constructor(pos, range, size) {
     this.x = pos.x;
     this.y = pos.y;
 
     this.particles = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < size; i++) {
       this.particles.push(new Particle(pos, range));
     }
   }
