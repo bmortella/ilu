@@ -7,8 +7,13 @@ import { Explosion } from "../anim/explosion.js";
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
 
-class InGame {
+class Play {
   constructor() {
+    this.nextState = "GAMEOVER";
+    this.done = false;
+  }
+
+  startUp() {
     this.mousePos = { x: 0, y: 0 };
 
     this.player = new Player(canvas.width / 2, canvas.height - 200);
@@ -16,13 +21,7 @@ class InGame {
     this.planetHealth = 500;
 
     this.projectiles = [];
-
     this.projectileCooldownCount = 0;
-
-    // this.asteroidDesigner = new AsteroidDesigner(
-    //   { x: canvas.width / 2, y: 300 },
-    //   "normal"
-    // );
 
     this.asteroids = [];
     this.bigAsteroid = null;
@@ -199,4 +198,4 @@ class InGame {
   }
 }
 
-export { InGame };
+export { Play };

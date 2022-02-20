@@ -1,4 +1,5 @@
-import { InGame } from "./states/inGame.js";
+import { Menu } from "./states/menu.js";
+import { Play } from "./states/play.js";
 
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
@@ -11,8 +12,10 @@ ctx.imageSmoothingEnabled = true;
 
 class Game {
   constructor() {
-    this.states = { IN_GAME: new InGame() };
-    this.current_state = this.states["IN_GAME"];
+    this.states = { MENU: new Menu(), PLAY: new Play() };
+    this.currentStateName = "MENU";
+    this.state = this.states[this.currentStateName];
+
     this.events = {
       keys: {},
       mouse: { mouseDown: false, mouseCoords: { x: 0, y: 0 } },
@@ -38,9 +41,19 @@ class Game {
     }
   }
 
+  flipState() {
+    this.currentStateName = this.state.nextState;
+    this.states[this.currentStateName].startUp();
+    this.state = this.states[this.currentStateName];
+  }
+
   run() {
-    this.current_state.update(this.events);
-    this.current_state.draw();
+    if (this.state.done) {
+      this.flipState();
+    }
+
+    this.state.update(this.events);
+    this.state.draw();
     requestAnimationFrame(() => this.run());
   }
 }
