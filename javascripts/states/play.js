@@ -87,8 +87,15 @@ class Play {
     this.projectileCooldownCount++;
 
     // Update asteroids + collision
-    //this.asteroidDesigner.update(events);
     this.asteroids.forEach((asteroid, aIndex) => {
+      const playerDistance = Math.hypot(
+        this.player.x - asteroid.x,
+        this.player.y - asteroid.y
+      );
+      if (playerDistance - asteroid.radius - this.player.radius < 1) {
+        this.gameOver();
+      }
+
       asteroid.update();
       this.projectiles.forEach((projectile, pIndex) => {
         const dist = Math.hypot(
@@ -108,6 +115,14 @@ class Play {
     });
 
     if (this.bigAsteroid) {
+      const playerDistance = Math.hypot(
+        this.player.x - this.bigAsteroid.x,
+        this.player.y - this.bigAsteroid.y
+      );
+      if (playerDistance - this.bigAsteroid.radius - this.player.radius < 1) {
+        this.gameOver();
+      }
+
       this.bigAsteroid.update();
       this.projectiles.forEach((projectile, index) => {
         if (!this.bigAsteroid) return;

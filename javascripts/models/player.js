@@ -6,6 +6,7 @@ class Player {
     this.x = x;
     this.y = y;
     this.vel = 2;
+    this.radius = 1;
   }
 
   update(events) {
