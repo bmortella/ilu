@@ -1,6 +1,15 @@
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
 
+const menuTheme = new Audio();
+menuTheme.src = "../../assets/sounds/menu.mp3";
+menuTheme.loop = true;
+menuTheme.volume = 0.1;
+
+const menuStart = new Audio();
+menuStart.src = "../../assets/sounds/menu-start.mp3";
+menuStart.volume = 0.1;
+
 class Menu {
   constructor() {
     this.nextState = "PLAY";
@@ -12,11 +21,18 @@ class Menu {
     this.planetY = canvas.height / 2;
     this.titleAlpha = 1;
     this.pressToStartAlpha = 1;
+    this.startUp();
+  }
+
+  startUp() {
+    menuTheme.play();
   }
 
   update(events) {
     if (events.keys["Enter"]) {
       this.transition = true;
+      menuTheme.pause();
+      menuStart.play();
     }
 
     if (this.transition) {

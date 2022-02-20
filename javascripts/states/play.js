@@ -7,6 +7,10 @@ import { Explosion } from "../anim/explosion.js";
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
 
+const shot = new Audio();
+shot.src = "../../assets/sounds/shot.mp3";
+shot.volume = 0.1;
+
 class Play {
   constructor() {
     this.nextState = "GAMEOVER";
@@ -80,6 +84,7 @@ class Play {
     if (events.mouse.mouseDown) {
       if (this.projectileCooldownCount % 30 === 0) {
         this.projectiles.push(new Projectile(this.player, this.mousePos));
+        shot.cloneNode(true).play();
         this.projectileCooldownCount = 0;
       }
     }
@@ -185,8 +190,6 @@ class Play {
     ctx.beginPath();
     ctx.arc(canvas.width / 2, canvas.height + 130, 250, 0, Math.PI, true);
     ctx.stroke();
-
-    //this.asteroidDesigner.draw();
 
     if (this.bigAsteroid) {
       this.bigAsteroid.draw();
