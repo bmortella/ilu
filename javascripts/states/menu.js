@@ -15,7 +15,7 @@ class Menu {
   }
 
   update(events) {
-    if (Object.keys(events.keys).length > 0) {
+    if (events.keys["Enter"]) {
       this.transition = true;
     }
 
@@ -59,11 +59,7 @@ class Menu {
     // Draw press to start
     ctx.font = "24px Gugi";
     ctx.fillStyle = `rgba(0,0,0,${this.pressToStartAlpha})`;
-    ctx.fillText(
-      "Pressione qualquer tecla para iniciar..",
-      120,
-      canvas.height - 100
-    );
+    ctx.fillText("Pressione enter para iniciar..", 175, canvas.height - 100);
   }
 }
 

@@ -1,5 +1,6 @@
 import { Menu } from "./states/menu.js";
 import { Play } from "./states/play.js";
+import { GameOver } from "./states/gameover.js";
 
 const canvas = document.getElementById("canvasObj");
 const ctx = canvas.getContext("2d");
@@ -12,7 +13,11 @@ ctx.imageSmoothingEnabled = true;
 
 class Game {
   constructor() {
-    this.states = { MENU: new Menu(), PLAY: new Play() };
+    this.states = {
+      MENU: new Menu(),
+      PLAY: new Play(),
+      GAMEOVER: new GameOver(),
+    };
     this.currentStateName = "MENU";
     this.state = this.states[this.currentStateName];
 
@@ -43,7 +48,8 @@ class Game {
 
   flipState() {
     this.currentStateName = this.state.nextState;
-    this.states[this.currentStateName].startUp();
+    this.states[this.currentStateName].startUp(this.state.persist);
+    this.state.done = false;
     this.state = this.states[this.currentStateName];
   }
 

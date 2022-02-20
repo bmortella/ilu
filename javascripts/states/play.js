@@ -11,6 +11,7 @@ class Play {
   constructor() {
     this.nextState = "GAMEOVER";
     this.done = false;
+    this.persist = {};
   }
 
   startUp() {
@@ -49,6 +50,11 @@ class Play {
   spawnBigAsteroid() {
     const x = Math.random() * canvas.width;
     this.bigAsteroid = new BigAsteroid({ x: x, y: -80 }, x);
+  }
+
+  gameOver() {
+    this.done = true;
+    this.persist.score = this.score;
   }
 
   update(events) {
@@ -151,6 +157,10 @@ class Play {
         this.animations.splice(index, 1);
       }
     });
+
+    if (this.planetHealth <= 0) {
+      this.gameOver();
+    }
   }
 
   draw() {
