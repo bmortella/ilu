@@ -1,6 +1,6 @@
 # Ilu
 
-Ilu é um jogo 2D para computadores em que o jogador precisa defender a colônia no planeta Ilu contra uma chuva de asteróides. Este jogo foi desenvolvido utilizando HTML, CSS e JavaScript como projeto para o primeiro módulo do bootcamp [IronHack](https://www.ironhack.com). O jogo pode ser jogado [aqui](https://bmortella.github.io/ilu/).
+Ilu é um jogo 2D para computadores em que o jogador precisa defender a colônia no planeta Ilu contra uma chuva de asteróides. Este jogo foi desenvolvido utilizando HTML, CSS e JavaScript como projeto para o primeiro módulo do bootcamp [IronHack](https://www.ironhack.com). O jogo pode ser jogado [aqui](https://bmortella.github.io/ilu/) e você pode ver minha apresentação sobre o jogo [aqui](https://docs.google.com/presentation/d/14bbK2rf7deh95fQw2IO6bLnuHaXobAm3faemGcVk43M/edit?usp=sharing).
 
 ## Como jogar
 

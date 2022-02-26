@@ -33,11 +33,11 @@ class Play {
 
     this.animations = [];
 
-    setInterval(() => {
+    this.asteroidInterval = setInterval(() => {
       this.spawnAsteroid();
     }, 713);
 
-    setInterval(() => {
+    this.bigAsteroidInterval = setInterval(() => {
       if (!this.bigAsteroid) this.spawnBigAsteroid();
     }, 5000);
   }
@@ -59,6 +59,8 @@ class Play {
   gameOver() {
     this.done = true;
     this.persist.score = this.score;
+    clearInterval(this.asteroidInterval);
+    clearInterval(this.bigAsteroidInterval);
   }
 
   update(events) {
